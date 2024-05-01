@@ -13,7 +13,7 @@ in
   config = {
     systemd.services = mkMerge ([(flip mapAttrs' cfg.secrets (
       name: scfg: nameValuePair "${name}-secrets" {
-        path = with pkgs; [ getent jq vault-bin python3 ];
+        path = with pkgs; [ getent jq vault-bin coreutils ];
 
         partOf = map (n: "${n}.service") scfg.services;
         wantedBy = optional (scfg.services == []) "multi-user.target" ;

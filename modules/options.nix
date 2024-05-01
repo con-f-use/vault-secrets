@@ -1,4 +1,4 @@
-{lib, cfg, pkgs, ...}:
+{lib, cfg, ...}:
 let
   inherit (lib) types mkOption;
   secretOptions = (with types; submodule (
@@ -23,9 +23,8 @@ let
         environmentFile = mkOption {
           type = with types; str;
           default = let
-            rootDir = if builtins.match ".*-darwin" pkgs.stdenv.hostPlatform.system != null then "/var/root" else "/root";
             fileName = if cfg.approlePrefix != null then "${cfg.approlePrefix}-${name}" else "${name}";
-          in "${rootDir}/vault-secrets.env.d/${fileName}";
+          in "/root/vault-secrets.env.d/${fileName}";
           example = "/root/service.sh";
           description = ''
             Path to a file that contains the necessary environment variables for
